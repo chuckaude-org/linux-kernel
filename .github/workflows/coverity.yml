@@ -1,0 +1,33 @@
+name: coverity
+on:
+  push:
+    branches: [ main, master, develop, stage, release ]
+  pull_request:
+    branches: [ main, master, develop, stage, release ]
+  workflow_dispatch:
+jobs:
+  coverity:
+    runs-on: self-hosted
+    steps:
+    - name: checkout
+      uses: actions/checkout@v4
+    - name: configure
+      run: make defconfig
+    - name: coverity
+      uses: blackduck-inc/black-duck-security-scan@v2.1.1
+      with:
+        coverity_url: ${{ vars.COVERITY_URL }}
+        coverity_user: ${{ secrets.COV_USER }}
+        coverity_passphrase: ${{ secrets.COVERITY_PASSPHRASE }}
+        coverity_policy_view: ${{ github.event_name != 'pull_request' && 'Outstanding Issues' || '' }}
+        coverity_prComment_enabled: true
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        # coverity_local: true
+        # include_diagnostics: true
+#    - name: Save Logs
+#      if: always()
+#      uses: actions/upload-artifact@v4
+#      with:
+#        name: bridge-logs
+#        path: ${{ github.workspace }}/.bridge
+#        include-hidden-files: true

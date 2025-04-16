@@ -1,0 +1,9 @@
+capture:
+  build:
+    clean-command: make clean
+    build-command: make -j8 all
+analyze:
+  c-cpp-fnptr: true
+  c-cpp-virtual: true
+  checkers:
+    all: true
