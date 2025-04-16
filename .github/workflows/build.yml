@@ -1,9 +1,10 @@
 name: build
 on:
   push:
-    branches: [ "linux-2.6.26.y" ]
+    branches: [ main, master, develop, stage, release ]
   pull_request:
-    branches: [ "linux-2.6.26.y" ]
+    branches: [ main, master, develop, stage, release ]
+  workflow_dispatch:
 jobs:
   build:
     runs-on: self-hosted
