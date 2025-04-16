@@ -1,0 +1,16 @@
+name: build
+on:
+  push:
+    branches: [ "linux-2.6.26.y" ]
+  pull_request:
+    branches: [ "linux-2.6.26.y" ]
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+    - name: checkout
+      uses: actions/checkout@v4
+    - name: configure
+      run: make defconfig
+    - name: build
+      run: make -j8 all
